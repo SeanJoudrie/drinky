@@ -1,0 +1,10 @@
+# RAP SHEET is a zero-build static site. Netlify just serves these files.
+[build]
+  publish = "."
+  command = "echo 'no build step — static site'"
+
+# Single page: send any unknown path back to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

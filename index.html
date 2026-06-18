@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0E0B1A" />
+  <title>RAP SHEET — the party game that keeps a record</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=Special+Elite&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ───────── SPLASH ───────── -->
+    <section id="splash" class="screen active">
+      <div class="stamp-detained">YOU HAVE BEEN DETAINED</div>
+    </section>
+
+    <!-- ───────── HOME ───────── -->
+    <section id="home" class="screen">
+      <div class="home-inner">
+        <h1 class="logo">RAP<br />SHEET</h1>
+        <p class="tagline">your friends commit crimes. the game keeps a record.</p>
+        <button id="btnResume" class="btn btn-ghost hidden">↩ Resume the case</button>
+        <button id="btnStart" class="btn btn-primary">START GAME</button>
+        <button id="btnQuick" class="btn btn-ghost hidden">⚡ Quick Play (last setup)</button>
+        <button id="btnGear" class="corner-btn gear" aria-label="settings">⚙</button>
+        <p class="legal-line">18+ · play responsibly · it's just a game, snitch</p>
+      </div>
+    </section>
+
+    <!-- ───────── SETUP ───────── -->
+    <section id="setup" class="screen">
+      <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
+      <div class="setup-inner">
+        <h2 class="case-title">OPEN A CASE</h2>
+
+        <div class="setup-block">
+          <label class="setup-label">HOW MANY SUSPECTS?</label>
+          <div id="playerCount" class="count-row"></div>
+        </div>
+
+        <div class="setup-block">
+          <label class="setup-label">HOW WILD</label>
+          <div class="seg" id="wildness">
+            <button data-val="chill">🟦 CHILL</button>
+            <button data-val="classic" class="on">🟧 CLASSIC</button>
+            <button data-val="unhinged">🟥 UNHINGED</button>
+          </div>
+          <p class="hint" id="wildHint">light profanity, nothing nuclear.</p>
+        </div>
+
+        <div class="setup-block">
+          <label class="setup-label">ADD A VIBE <span class="opt">(optional)</span></label>
+          <input id="keyword" class="vibe-input" maxlength="20" placeholder="sports · college · our group chat…" autocomplete="off" />
+          <div class="chips" id="vibeChips"></div>
+        </div>
+
+        <div class="setup-block toggle-row">
+          <div>
+            <label class="setup-label">🍺 DRINKING RULES</label>
+            <p class="hint">off = dares & priors only. works stone sober.</p>
+          </div>
+          <button id="drinkToggle" class="toggle" role="switch" aria-checked="false"><span></span></button>
+        </div>
+
+        <button id="btnDeal" class="btn btn-primary deal">DEAL THE DECK</button>
+      </div>
+    </section>
+
+    <!-- ───────── GAME ───────── -->
+    <section id="game" class="screen">
+      <div class="topbar">
+        <button class="corner-btn pause" id="btnPause" aria-label="pause">⏸</button>
+        <div class="priors-strip" id="priorsStrip"></div>
+        <button class="corner-btn gear small" id="btnGearGame" aria-label="settings">⚙</button>
+      </div>
+
+      <div class="card-stage" id="cardStage">
+        <article class="rapcard" id="rapcard">
+          <div class="card-stamp" id="cardStamp">MISDEMEANOR</div>
+          <div class="card-watermark">CASE&nbsp;#<span id="caseNo">00000</span></div>
+          <p class="charge" id="chargeText">…</p>
+          <div class="card-foot">
+            <span class="target-line" id="targetLine"></span>
+            <span class="stakes-stamp" id="stakesStamp">+1 PRIOR</span>
+          </div>
+        </article>
+        <p class="tap-hint" id="tapHint">tap the card to advance · pass the phone left</p>
+      </div>
+
+      <div class="book-row" id="bookRow">
+        <span class="book-label">Who got booked?</span>
+        <div class="book-chips" id="bookChips"></div>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl" id="btnSkip">⤼ Skip</button>
+        <button class="ctrl" id="btnUndo">↶ Undo</button>
+        <button class="ctrl" id="btnEnd">⛔ End</button>
+      </div>
+    </section>
+
+    <!-- ───────── LOCKUP ───────── -->
+    <section id="lockup" class="screen">
+      <div class="lockup-inner">
+        <div class="bars"></div>
+        <h2 class="lockup-title">LOCKED UP</h2>
+        <p class="lockup-who" id="lockupWho">Player 3</p>
+        <p class="lockup-sub" id="lockupSub">Three priors. Finish your drink / take the crown of shame.</p>
+        <button class="btn btn-primary" id="btnLockContinue">Back to the streets →</button>
+      </div>
+    </section>
+
+    <!-- ───────── RECAP ───────── -->
+    <section id="recap" class="screen">
+      <div class="recap-inner">
+        <h2 class="recap-title">TONIGHT'S DOCKET</h2>
+        <canvas id="poster" width="720" height="960"></canvas>
+        <div class="recap-actions">
+          <button class="btn btn-primary" id="btnShare">📸 Share the Wanted Poster</button>
+          <button class="btn btn-ghost" id="btnAgain">Play again</button>
+          <button class="btn btn-ghost" id="btnRecapHome">Home</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── SETTINGS ───────── -->
+    <section id="settings" class="screen">
+      <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
+      <div class="setup-inner">
+        <h2 class="case-title">SETTINGS</h2>
+        <div class="setup-block toggle-row">
+          <label class="setup-label">Haptics</label>
+          <button id="hapticToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button>
+        </div>
+        <div class="setup-block toggle-row">
+          <label class="setup-label">Keep screen awake</label>
+          <button id="wakeToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button>
+        </div>
+        <div class="setup-block">
+          <p class="hint">RAP SHEET v1 · pass-the-phone · everything stays on this device. No accounts, no servers, no snitching to the cloud.</p>
+          <p class="hint">Drink responsibly. Never make anyone do anything they're not comfortable with — that's what Skip is for.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="cards.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
