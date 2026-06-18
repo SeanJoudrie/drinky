@@ -204,3 +204,67 @@ body{
   .charge{font-size:32px;}
   .logo{font-size:84px;}
 }
+
+/* ───── splash scanner ───── */
+.scanner{position:absolute;bottom:14%;color:var(--cta-2);font-family:var(--type-font);font-size:13px;opacity:.7;letter-spacing:.5px;text-align:center;padding:0 20px;}
+
+/* ───── toast ───── */
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+  background:#1B1733;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:12px 18px;border-radius:12px;
+  font-size:13px;z-index:60;opacity:0;pointer-events:none;transition:.25s;max-width:88vw;text-align:center;}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ───── rotate guard ───── */
+#rotate{display:none;}
+@media (orientation:landscape) and (max-height:520px){
+  #rotate{display:flex;position:fixed;inset:0;z-index:100;background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:30px;}
+  #rotate p{font-size:18px;font-weight:700;}
+  #app{display:none;}
+}
+
+/* ───── memory banner ───── */
+.memory{background:rgba(45,226,230,.08);border:1px solid rgba(45,226,230,.25);color:var(--cta-2);
+  font-family:var(--type-font);font-size:12.5px;padding:10px 14px;border-radius:12px;margin-bottom:6px;line-height:1.4;}
+
+/* ───── charge of the day ───── */
+.cod{margin-top:20px;background:var(--paper);color:var(--ink);border-radius:16px;padding:14px 16px;cursor:pointer;text-align:left;
+  box-shadow:0 10px 30px -12px rgba(91,140,255,.4);}
+.cod:active{transform:scale(.98);}
+.cod-label{font-family:var(--type-font);font-size:11px;color:var(--stamp-high);letter-spacing:.5px;}
+.cod-text{font-family:var(--card-font);font-size:19px;line-height:1.1;margin:8px 0 0;}
+
+/* ───── big stamp (agegate / exhausted) ───── */
+.big-stamp{align-self:center;font-size:18px;color:var(--cta);border-color:var(--cta);transform:rotate(-3deg);}
+
+/* ───── stamp pips ───── */
+.card-stamp .pips{font-size:9px;letter-spacing:1px;vertical-align:middle;}
+
+/* ───── drink row ───── */
+.drink-row{font-family:var(--type-font);font-size:14px;color:var(--stamp-high);text-align:center;
+  margin:2px 0 10px;padding:6px;border:1.5px dashed var(--stamp-high);border-radius:8px;}
+
+/* ───── coaching overlay ───── */
+.coach{position:absolute;inset:0;background:rgba(14,11,26,.94);display:flex;align-items:center;justify-content:center;z-index:8;padding:24px;}
+.coach-card{max-width:340px;text-align:center;}
+.coach-card h3{font-family:var(--card-font);font-size:30px;letter-spacing:1px;margin:0 0 16px;color:var(--cta-2);}
+.coach-card p{font-size:16px;line-height:1.5;margin:10px 0;color:var(--text);}
+.coach-go{display:block;margin-top:22px;color:var(--cta);font-weight:800;font-size:14px;}
+
+/* ───── agency / wide book buttons ───── */
+.book-chips button.wide{min-width:auto;width:100%;height:auto;padding:13px;font-size:14px;border-radius:14px;}
+.book-row .book-chips:has(.wide){flex-direction:column;width:100%;max-width:380px;}
+
+/* ───── custom cards ───── */
+.custom-meta{display:flex;gap:8px;margin-top:10px;align-items:center;}
+.mini-select{flex:1;padding:11px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);font-size:13px;font-family:var(--ui-font);}
+.mini-add{width:auto!important;padding:11px 16px!important;font-size:14px;}
+.custom-list{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+.custom-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border-radius:10px;padding:10px 12px;font-size:13px;}
+.custom-row span{flex:1;}
+.custom-del{background:none;border:none;color:#ff8a8a;font-size:16px;cursor:pointer;flex-shrink:0;}
+textarea.vibe-input{resize:none;font-family:var(--ui-font);line-height:1.4;}
+
+/* ───── reduced motion ───── */
+@media (prefers-reduced-motion:reduce){
+  .stamp-detained,.rapcard.dealing,.screen{animation:none!important;}
+}

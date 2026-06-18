@@ -5,33 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0E0B1A" />
   <title>RAP SHEET — the party game that keeps a record</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E0B1A'/%3E%3Crect x='12' y='14' width='40' height='8' fill='%23F4ECD8'/%3E%3Crect x='12' y='28' width='40' height='8' fill='%23F4ECD8'/%3E%3Crect x='12' y='42' width='40' height='8' fill='%23D7263D'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=Special+Elite&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="rotate"><p>🔄 Turn your phone upright — RAP SHEET plays in portrait.</p></div>
+  <div id="toast"></div>
+
   <div id="app">
 
-    <!-- ───────── SPLASH ───────── -->
+    <!-- SPLASH -->
     <section id="splash" class="screen active">
       <div class="stamp-detained">YOU HAVE BEEN DETAINED</div>
+      <p id="scannerLine" class="scanner"></p>
     </section>
 
-    <!-- ───────── HOME ───────── -->
+    <!-- AGE GATE -->
+    <section id="agegate" class="screen">
+      <div class="lockup-inner">
+        <div class="card-stamp big-stamp">RAP SHEET</div>
+        <h2 class="case-title" style="margin-top:18px">ARE YOU 18+?</h2>
+        <p class="lockup-sub">This game gets crude. Confirm you're an adult to proceed.</p>
+        <button class="btn btn-primary" id="ageYes">Yes, I'm 18 or older</button>
+        <button class="btn btn-ghost" id="ageNo">No</button>
+      </div>
+    </section>
+
+    <!-- HOME -->
     <section id="home" class="screen">
       <div class="home-inner">
         <h1 class="logo">RAP<br />SHEET</h1>
-        <p class="tagline">your friends commit crimes. the game keeps a record.</p>
+        <p id="homeTag" class="tagline">your friends commit crimes. the game keeps a record.</p>
+        <div id="memory" class="memory hidden"></div>
         <button id="btnResume" class="btn btn-ghost hidden">↩ Resume the case</button>
         <button id="btnStart" class="btn btn-primary">START GAME</button>
         <button id="btnQuick" class="btn btn-ghost hidden">⚡ Quick Play (last setup)</button>
         <button id="btnGear" class="corner-btn gear" aria-label="settings">⚙</button>
+        <div id="cod" class="cod">
+          <span class="cod-label">🚔 CHARGE OF THE DAY · tap to share</span>
+          <p id="codText" class="cod-text"></p>
+        </div>
         <p class="legal-line">18+ · play responsibly · it's just a game, snitch</p>
       </div>
     </section>
 
-    <!-- ───────── SETUP ───────── -->
+    <!-- SETUP -->
     <section id="setup" class="screen">
       <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
       <div class="setup-inner">
@@ -40,6 +62,7 @@
         <div class="setup-block">
           <label class="setup-label">HOW MANY SUSPECTS?</label>
           <div id="playerCount" class="count-row"></div>
+          <p id="bigNote" class="hint hidden">Past ~8, set the phone in the middle of the table — passing gets slow.</p>
         </div>
 
         <div class="setup-block">
@@ -49,13 +72,18 @@
             <button data-val="classic" class="on">🟧 CLASSIC</button>
             <button data-val="unhinged">🟥 UNHINGED</button>
           </div>
-          <p class="hint" id="wildHint">light profanity, nothing nuclear.</p>
+          <p class="hint" id="wildHint">light profanity, the good stuff.</p>
         </div>
 
         <div class="setup-block">
           <label class="setup-label">ADD A VIBE <span class="opt">(optional)</span></label>
           <input id="keyword" class="vibe-input" maxlength="20" placeholder="sports · college · our group chat…" autocomplete="off" />
           <div class="chips" id="vibeChips"></div>
+        </div>
+
+        <div class="setup-block">
+          <label class="setup-label">OFF-LIMITS <span class="opt">(filtered out before you start)</span></label>
+          <div class="chips" id="offlimits"></div>
         </div>
 
         <div class="setup-block toggle-row">
@@ -70,28 +98,41 @@
       </div>
     </section>
 
-    <!-- ───────── GAME ───────── -->
+    <!-- GAME -->
     <section id="game" class="screen">
       <div class="topbar">
         <button class="corner-btn pause" id="btnPause" aria-label="pause">⏸</button>
         <div class="priors-strip" id="priorsStrip"></div>
-        <button class="corner-btn gear small" id="btnGearGame" aria-label="settings">⚙</button>
+        <button class="corner-btn small" id="btnAddP" aria-label="add player">＋</button>
+        <button class="corner-btn small" id="btnGearGame" aria-label="settings">⚙</button>
       </div>
 
       <div class="card-stage" id="cardStage">
         <article class="rapcard" id="rapcard">
-          <div class="card-stamp" id="cardStamp">MISDEMEANOR</div>
+          <div class="card-stamp" id="cardStamp">PETTY OFFENSE</div>
           <div class="card-watermark">CASE&nbsp;#<span id="caseNo">00000</span></div>
           <p class="charge" id="chargeText">…</p>
+          <div class="drink-row hidden" id="drinkRow"></div>
           <div class="card-foot">
             <span class="target-line" id="targetLine"></span>
             <span class="stakes-stamp" id="stakesStamp">+1 PRIOR</span>
           </div>
         </article>
-        <p class="tap-hint" id="tapHint">tap the card to advance · pass the phone left</p>
+        <p class="tap-hint">tap the card to advance · pass the phone one way</p>
+
+        <!-- first-run coaching overlay -->
+        <div id="coach" class="coach hidden">
+          <div class="coach-card">
+            <h3>HOW TO DO TIME</h3>
+            <p>Sit in a circle. Pass the phone <b>one direction</b>.</p>
+            <p>Tap the card to advance. When a charge books someone, tap their <b>P#</b>.</p>
+            <p>Three priors = <b>locked up</b>.</p>
+            <span class="coach-go">tap anywhere to begin →</span>
+          </div>
+        </div>
       </div>
 
-      <div class="book-row" id="bookRow">
+      <div class="book-row hidden" id="bookRow">
         <span class="book-label">Who got booked?</span>
         <div class="book-chips" id="bookChips"></div>
       </div>
@@ -99,22 +140,34 @@
       <div class="controls">
         <button class="ctrl" id="btnSkip">⤼ Skip</button>
         <button class="ctrl" id="btnUndo">↶ Undo</button>
+        <button class="ctrl" id="btnFlag">🚩 Flag</button>
         <button class="ctrl" id="btnEnd">⛔ End</button>
       </div>
     </section>
 
-    <!-- ───────── LOCKUP ───────── -->
+    <!-- LOCKUP -->
     <section id="lockup" class="screen">
       <div class="lockup-inner">
         <div class="bars"></div>
         <h2 class="lockup-title">LOCKED UP</h2>
         <p class="lockup-who" id="lockupWho">Player 3</p>
-        <p class="lockup-sub" id="lockupSub">Three priors. Finish your drink / take the crown of shame.</p>
+        <p class="lockup-sub" id="lockupSub">Three priors. Take the crown of shame.</p>
         <button class="btn btn-primary" id="btnLockContinue">Back to the streets →</button>
       </div>
     </section>
 
-    <!-- ───────── RECAP ───────── -->
+    <!-- DECK EXHAUSTED -->
+    <section id="exhausted" class="screen">
+      <div class="lockup-inner">
+        <div class="card-stamp big-stamp">CASE FILE CLOSED</div>
+        <h2 class="case-title" style="margin-top:18px">You worked the whole file.</h2>
+        <p class="lockup-sub">Run it back for another round, or call it and see tonight's docket.</p>
+        <button class="btn btn-primary" id="btnReshuffle">🔀 Reshuffle — keep going</button>
+        <button class="btn btn-ghost" id="btnExhaustEnd">See the docket →</button>
+      </div>
+    </section>
+
+    <!-- RECAP -->
     <section id="recap" class="screen">
       <div class="recap-inner">
         <h2 class="recap-title">TONIGHT'S DOCKET</h2>
@@ -127,21 +180,38 @@
       </div>
     </section>
 
-    <!-- ───────── SETTINGS ───────── -->
+    <!-- SETTINGS -->
     <section id="settings" class="screen">
       <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
       <div class="setup-inner">
         <h2 class="case-title">SETTINGS</h2>
-        <div class="setup-block toggle-row">
-          <label class="setup-label">Haptics</label>
-          <button id="hapticToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button>
-        </div>
-        <div class="setup-block toggle-row">
-          <label class="setup-label">Keep screen awake</label>
-          <button id="wakeToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button>
-        </div>
+        <div class="setup-block toggle-row"><label class="setup-label">Haptics</label><button id="hapticToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button></div>
+        <div class="setup-block toggle-row"><label class="setup-label">Sound</label><button id="soundToggle" class="toggle" role="switch" aria-checked="false"><span></span></button></div>
+        <div class="setup-block toggle-row"><label class="setup-label">Keep screen awake</label><button id="wakeToggle" class="toggle on" role="switch" aria-checked="true"><span></span></button></div>
+
         <div class="setup-block">
-          <p class="hint">RAP SHEET v1 · pass-the-phone · everything stays on this device. No accounts, no servers, no snitching to the cloud.</p>
+          <label class="setup-label">✍️ MY CHARGES</label>
+          <p class="hint">Write your own. They shuffle into every game.</p>
+          <textarea id="customText" class="vibe-input" rows="2" maxlength="140" placeholder="e.g. Point at whoever still owes the table money."></textarea>
+          <div class="custom-meta">
+            <select id="customType" class="mini-select">
+              <option value="callout">Callout (point)</option>
+              <option value="dare">Dare</option>
+              <option value="thisorthat">This or that</option>
+              <option value="group">Group</option>
+            </select>
+            <select id="customSpice" class="mini-select">
+              <option value="1">🟦 Mild</option>
+              <option value="2" selected>🟧 Spicy</option>
+              <option value="4">🟥 Felony</option>
+            </select>
+            <button id="addCardBtn" class="btn btn-ghost mini-add">File it</button>
+          </div>
+          <div id="customList" class="custom-list"></div>
+        </div>
+
+        <div class="setup-block">
+          <p class="hint">RAP SHEET v1 · pass-the-phone · everything stays on this device. No accounts, no servers.</p>
           <p class="hint">Drink responsibly. Never make anyone do anything they're not comfortable with — that's what Skip is for.</p>
         </div>
       </div>
