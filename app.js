@@ -404,6 +404,8 @@
 
   // ---------- setup ----------
   function buildSetup(){
+    const mo=$("#moreOptions");mo.classList.add("hidden");$("#moreToggle").textContent="More options ▾";
+    $("#moreToggle").onclick=()=>{const h=mo.classList.toggle("hidden");$("#moreToggle").textContent=h?"More options ▾":"Fewer options ▴";};
     $$("#deviceMode button").forEach(b=>b.onclick=()=>{$$("#deviceMode button").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("#multiNote").classList.toggle("hidden",b.dataset.val!=="multi");$("#nameBlock").classList.toggle("hidden",b.dataset.val==="multi");refreshDealLabel();});
     window._lastN=window._lastN||4;renderNameList();
     $("#fewer").onclick=()=>{window._lastN=Math.max(3,window._lastN-1);renderNameList();};

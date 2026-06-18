@@ -55,29 +55,16 @@
       <div class="setup-inner">
         <h2 class="case-title">OPEN A CASE</h2>
 
-        <div class="setup-block">
-          <label class="setup-label">HOW ARE WE PLAYING?</label>
-          <div class="seg" id="deviceMode">
-            <button data-val="onephone" class="on">📱 One phone</button>
-            <button data-val="multi">📡 Multiple phones</button>
-          </div>
-          <p id="multiNote" class="hint hidden">Online rooms (everyone on their own phone via a code) are coming next — for now this plays as one passed phone.</p>
+        <!-- 1 · the fork -->
+        <div class="seg cards" id="deviceMode">
+          <button data-val="onephone" class="on">📱<b>One phone</b><small>pass it around</small></button>
+          <button data-val="multi">📡<b>Multiple phones</b><small>everyone's own</small></button>
         </div>
+        <p id="multiNote" class="hint hidden">A lobby opens with a 4-letter code — drop it in the group chat and everyone joins from their own phone, anywhere.</p>
 
-        <div class="setup-block" id="nameBlock">
-          <label class="setup-label">THE SUSPECTS <span id="playerNum" class="count-badge">4</span></label>
-          <div class="stepper-row">
-            <button id="fewer" class="step-btn">–</button>
-            <span class="step-label">players</span>
-            <button id="more" class="step-btn">+</button>
-          </div>
-          <div id="nameList" class="name-list"></div>
-          <p id="bigNote" class="hint hidden">Past ~8, set the phone in the middle — passing gets slow.</p>
-        </div>
-
-        <div class="setup-block">
-          <label class="setup-label">HOW WILD</label>
-          <div class="seg" id="wildness">
+        <!-- 2 · the hero choice -->
+        <div class="setup-block hero">
+          <div class="seg tall" id="wildness">
             <button data-val="chill">CHILL</button>
             <button data-val="classic" class="on">CLASSIC</button>
             <button data-val="unhinged">UNHINGED</button>
@@ -85,47 +72,61 @@
           <p class="hint" id="wildHint">light profanity, the good stuff.</p>
         </div>
 
+        <!-- 3 · vibes -->
         <div class="setup-block">
-          <label class="setup-label">ADD VIBES <span class="opt">(pick your top 3)</span></label>
           <button id="babaChip" class="baba-chip">🏀 BABA MODE — sports-brain, out of pocket</button>
           <div class="chips" id="vibeChips"></div>
           <button id="moreVibesBtn" class="more-vibes">+ more vibe packs</button>
           <div class="chips hidden" id="vibeMore"></div>
-          <p class="hint" id="vibeHint">pick as many as you want — top 3 hit hardest</p>
-        </div>
-
-        <div class="setup-block">
-          <label class="setup-label">OFF-LIMITS <span class="opt">(filtered out before you start)</span></label>
-          <div class="chips" id="offlimits"></div>
-          <div class="add-row">
-            <input id="offInput" class="vibe-input" maxlength="20" placeholder="add your own off-limits topic…" autocomplete="off" />
-            <button id="addOff" class="btn btn-ghost mini-add">Add</button>
-          </div>
-        </div>
-
-        <div class="setup-block toggle-row">
-          <div>
-            <label class="setup-label">POINTS PER STRIKE</label>
-            <p class="hint">points to earn one strike · fewest strikes wins the night</p>
-          </div>
-          <div class="stepper-row tight">
-            <button id="ppsDown" class="step-btn">–</button>
-            <span id="ppsVal" class="step-num">3</span>
-            <button id="ppsUp" class="step-btn">+</button>
-          </div>
-        </div>
-
-        <div class="setup-block toggle-row">
-          <div><label class="setup-label">🍺 DRINKING RULES</label><p class="hint">off = dares & points only. works stone sober.</p></div>
-          <button id="drinkToggle" class="toggle" role="switch"><span></span></button>
-        </div>
-
-        <div class="setup-block toggle-row">
-          <div><label class="setup-label">MY CUSTOM CHARGES <span id="customCount" class="opt">(none yet)</span></label><p class="hint">shuffle your saved cards into this game</p></div>
-          <button id="customInclude" class="toggle" role="switch"><span></span></button>
+          <p class="hint" id="vibeHint">add a vibe — optional. top 3 hit hardest.</p>
         </div>
 
         <button id="btnDeal" class="btn btn-primary deal">DEAL THE DECK</button>
+
+        <!-- advanced (collapsed) -->
+        <button id="moreToggle" class="more-toggle">More options ▾</button>
+        <div id="moreOptions" class="more-options hidden">
+
+          <div class="setup-block" id="nameBlock">
+            <label class="setup-label">PLAYERS <span id="playerNum" class="count-badge">4</span></label>
+            <div class="stepper-row">
+              <button id="fewer" class="step-btn">–</button>
+              <span class="step-label">on one phone</span>
+              <button id="more" class="step-btn">+</button>
+            </div>
+            <div id="nameList" class="name-list"></div>
+            <p id="bigNote" class="hint hidden">Past ~8, set the phone in the middle — passing gets slow.</p>
+          </div>
+
+          <div class="setup-block toggle-row">
+            <label class="setup-label">POINTS PER STRIKE</label>
+            <div class="stepper-row tight">
+              <button id="ppsDown" class="step-btn">–</button>
+              <span id="ppsVal" class="step-num">3</span>
+              <button id="ppsUp" class="step-btn">+</button>
+            </div>
+          </div>
+
+          <div class="setup-block toggle-row">
+            <label class="setup-label">🍺 Drinking rules</label>
+            <button id="drinkToggle" class="toggle" role="switch"><span></span></button>
+          </div>
+
+          <div class="setup-block toggle-row">
+            <label class="setup-label">My custom charges <span id="customCount" class="opt">(none yet)</span></label>
+            <button id="customInclude" class="toggle" role="switch"><span></span></button>
+          </div>
+
+          <div class="setup-block">
+            <label class="setup-label">OFF-LIMITS</label>
+            <div class="chips" id="offlimits"></div>
+            <div class="add-row">
+              <input id="offInput" class="vibe-input" maxlength="20" placeholder="add a topic to filter out…" autocomplete="off" />
+              <button id="addOff" class="btn btn-ghost mini-add">Add</button>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
