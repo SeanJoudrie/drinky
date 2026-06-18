@@ -43,6 +43,7 @@
         <button id="btnQuick" class="btn btn-primary">QUICK PLAY</button>
         <p class="quick-sub">first charge in 3 seconds · no setup</p>
         <button id="btnStart" class="btn btn-ghost">Customize a case</button>
+        <button id="btnJoin" class="btn btn-ghost">📡 Join a game with a code</button>
         <button id="btnGear" class="corner-btn gear" aria-label="settings" data-label=""></button>
         <p class="legal-line">18+ · play responsibly · it's just a game, snitch</p>
       </div>
@@ -63,7 +64,7 @@
           <p id="multiNote" class="hint hidden">Online rooms (everyone on their own phone via a code) are coming next — for now this plays as one passed phone.</p>
         </div>
 
-        <div class="setup-block">
+        <div class="setup-block" id="nameBlock">
           <label class="setup-label">THE SUSPECTS <span id="playerNum" class="count-badge">4</span></label>
           <div class="stepper-row">
             <button id="fewer" class="step-btn">–</button>
@@ -127,6 +128,50 @@
         <button id="btnDeal" class="btn btn-primary deal">DEAL THE DECK</button>
       </div>
     </section>
+
+    <!-- JOIN SCREEN -->
+    <section id="joinScreen" class="screen">
+      <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
+      <div class="setup-inner" style="max-width:400px">
+        <h2 class="case-title">JOIN A LOBBY</h2>
+        <div class="setup-block">
+          <label class="setup-label">LOBBY CODE</label>
+          <input id="joinCode" class="vibe-input code-input" maxlength="4" placeholder="ABCD" autocomplete="off" autocapitalize="characters" />
+        </div>
+        <div class="setup-block">
+          <label class="setup-label">YOUR NAME</label>
+          <input id="joinName" class="vibe-input" maxlength="14" placeholder="what should we book you as?" autocomplete="off" />
+        </div>
+        <button id="joinGo" class="btn btn-primary">JOIN</button>
+        <p class="hint" style="text-align:center;margin-top:14px">Everyone plays from their own phone. One person hosts and shares the code.</p>
+      </div>
+    </section>
+
+    <!-- LOBBY ROOM -->
+    <section id="lobbyRoom" class="screen">
+      <button class="corner-btn back" data-go="home" aria-label="back">‹</button>
+      <div class="setup-inner" style="max-width:420px;text-align:center">
+        <h2 class="case-title">THE LINEUP</h2>
+        <p class="lobby-codelabel">LOBBY CODE</p>
+        <div id="lobbyCode" class="lobby-code">----</div>
+        <button id="lobbyCopy" class="btn btn-ghost">Share the code / link</button>
+        <p id="lobbyLink" class="lobby-link"></p>
+        <div class="lobby-head"><span>SUSPECTS</span><span id="lobbyCount" class="count-badge">1</span></div>
+        <div id="lobbyPlayers" class="lobby-players"></div>
+        <p id="lobbyStatus" class="lobby-status">Opening lobby…</p>
+        <button id="lobbyStart" class="btn btn-primary hidden">START THE GAME</button>
+        <p id="lobbyWait" class="hint hidden">Waiting for the host to start the game…</p>
+      </div>
+    </section>
+
+    <!-- CHARGED FLASH (multi-device) -->
+    <div id="chargedFlash" class="charged-flash hidden">
+      <div class="cf-inner">
+        <div class="cf-stamp">CHARGED</div>
+        <p id="chargedText" class="cf-text"></p>
+        <span class="cf-go">tap to dismiss</span>
+      </div>
+    </div>
 
     <!-- BABA WARNING -->
     <section id="babaWarn" class="screen overlay-screen hidden">
@@ -267,6 +312,7 @@
 
   </div>
 
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <script src="cards.js"></script>
   <script src="app.js"></script>
 </body>

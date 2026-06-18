@@ -138,14 +138,14 @@ window.CARDS = [
   {id:124,type:"thisorthat", spice:4, minPlayers:3, themes:["dating"], text:"FELONY: better in bed by reputation — {left} or {right}? Table votes. Brutal."},
 
   // ───────────────────── POWER CARDS (light blue · special) ─────────────────────
-  {id:200,type:"power", power:"pardon", spice:1, text:"GET OUT OF JAIL. Pick anyone — wipe their points clean. Already clean? Erase one of their strikes instead."},
-  {id:201,type:"power", power:"deflect", spice:1, text:"DEFLECTION. Redirect: pick anyone at the table to eat a point. Their problem now. You don't even have to explain."},
-  {id:202,type:"power", power:"pardon", spice:1, text:"PARDONED. The court shows mercy — once. Clear one player's record by a point... or a whole strike if they're clean."},
-  {id:203,type:"power", power:"deflect", spice:1, text:"REVERSE THE CHARGE. Someone here takes a point and it's your call who. Choose violence."},
-  {id:204,type:"power", power:"pardon", spice:1, text:"CLEAN SLATE. Tap a player — their points vanish. If they had none, a strike disappears too. Lucky them."},
-  {id:205,type:"power", power:"deflect", spice:1, text:"HOT POTATO. Pick a victim — they're booked for a point, no questions, no appeals."},
-  {id:206,type:"power", power:"pardon", spice:1, text:"PLEA DEAL ACCEPTED. One player walks: clear their points, or lift a strike if they're spotless."},
-  {id:207,type:"power", power:"deflect", spice:1, text:"SNITCH MOVE. Name someone — they take a point for a crime you won't specify. Beautiful."},
+  {id:200,type:"power", power:"pardon", spice:1, text:"EVIDENCE LOCKER. Hand a 🔑 PARDON token to someone. They keep it — burn it anytime to wipe a point (or a strike if they're clean)."},
+  {id:201,type:"power", power:"deflect", spice:1, text:"GET-OUT CLAUSE. Hand a 🛡 DEFLECT token to someone. Next time they're booked, they slap it down and pass the charge to anyone."},
+  {id:202,type:"power", power:"pardon", spice:1, text:"FRIEND IN THE DA'S OFFICE. Issue a 🔑 PARDON token. Pocket it — cash it in to erase a point or lift a strike later."},
+  {id:203,type:"power", power:"deflect", spice:1, text:"SLIPPERY. Award a 🛡 DEFLECT token. Hold onto it — when a charge comes your way, bounce it onto anyone you like."},
+  {id:204,type:"power", power:"pardon", spice:1, text:"CLEAN-UP CREW. Give someone a 🔑 PARDON token to keep. One day it clears a point off their record. Or a strike."},
+  {id:205,type:"power", power:"deflect", spice:1, text:"HOT POTATO PASS. Hand out a 🛡 DEFLECT token. The holder can reroute their next charge to a friend. No takebacks."},
+  {id:206,type:"power", power:"pardon", spice:1, text:"PLEA DEAL. Issue a 🔑 PARDON token. Save it for the worst moment — it eases your record by one."},
+  {id:207,type:"power", power:"deflect", spice:1, text:"WITNESS PROTECTION. Award a 🛡 DEFLECT token. When they get booked, they vanish and someone else takes the fall."},
 
   // ───────────────────── BABA MODE (private beta · intentionally out of pocket sports content) ─────────────────────
   {id:300,type:"callout", spice:5, baba:true, text:"BABA: Point at whoever you'd trade for a 2nd-round pick and not lose a second of sleep."},
