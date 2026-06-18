@@ -303,6 +303,8 @@
                   currentId:st.current.id, used:[...st.used], highlightId:st.highlight?st.highlight.id:null });
   }
   function resumable(){ const s=load(SAVE,null); return (s && Date.now()-s.t <= 6*60*60*1000) ? s : null; }
+  // Quick Play smart defaults: reuse last setup, else sane defaults — zero taps to first card.
+  function quickFilters(){ return load(LASTF, null) || { players:6, wildness:"classic", keyword:"", drinking:false, exclude:[] }; }
 
   // ---------- start / resume ----------
   function startGame(f){
@@ -360,7 +362,7 @@
     $("#btnStart").onclick = () => { buildSetup(); show("setup"); };
     $("#btnGear").onclick   = () => { renderSettings(); show("settings"); };
     $("#btnResume").onclick = () => { const s=resumable(); if (s) resumeGame(s); };
-    $("#btnQuick").onclick   = () => { const f=load(LASTF,null); if (f) startGame(f); };
+    $("#btnQuick").onclick   = () => startGame(quickFilters());   // v1.1 §1/§3.1 — zero-setup hero
     $("#cod").onclick = () => shareCOD();
     $$("[data-go]").forEach(b => b.onclick = () => b.dataset.go==="home" ? enterHome() : show(b.dataset.go));
 
@@ -391,7 +393,6 @@
     const returning = !!(load(SAVE,null) || load(LASTF,null) || load(DOCKET,null));
     $("#homeTag").textContent = returning ? "Back again, repeat offender." : "your friends commit crimes. the game keeps a record.";
     $("#btnResume").classList.toggle("hidden", !resumable());
-    $("#btnQuick").classList.toggle("hidden", !load(LASTF,null));
     // one-byte memory banner (ITEM #12)
     const d=load(DOCKET,null), mw=$("#memory");
     if (d){ mw.classList.remove("hidden"); mw.textContent = `Last time, Player ${d.seat} was Most Wanted (${d.total} charges). The court is watching.`; }
